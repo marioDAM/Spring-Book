@@ -24,17 +24,12 @@ public class Reservation {
     @ManyToMany(mappedBy = "reservations")
     private List<Book> books;
     @Temporal(TemporalType.DATE)
-    private Date fechaAlquilada;
+    private Date isReserved;
     @Temporal(TemporalType.DATE)
-    private Date fechaEntregada;
+    private Date returnDate;
     @Temporal(TemporalType.DATE)
-    private Date fechaLimite;
+    private Date dueDate;
+    @Temporal(TemporalType.DATE)
+    private Date reservationDate;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }
