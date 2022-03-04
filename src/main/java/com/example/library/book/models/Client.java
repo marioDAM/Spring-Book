@@ -13,15 +13,17 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-public class Client extends BaseEntity {
-
+public class Client /*extends BaseEntity*/ {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String name;
     private String dni;
     private String address;
     private String email;
     @Column(name = "CODLIBRARY")
     private Integer codLibrary;
-    @OneToMany(mappedBy = "client",  cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 
 }
