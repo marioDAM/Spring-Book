@@ -15,10 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Book extends BaseEntity{
     private String name;
     private String author;
     private Integer ISBN;

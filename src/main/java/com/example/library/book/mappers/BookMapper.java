@@ -9,14 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-
-
 import java.util.List;
 import java.util.stream.Collectors;
 
-// Otra forma de hacer la inyección de dependencias con Lombok
-// Para ello usamos la anotacion @RequiredArgsConstructor y
-// private final con lo que queramos inyectar
 @Component
 @RequiredArgsConstructor // Nos ahorramos el autowire
 

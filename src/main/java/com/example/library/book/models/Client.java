@@ -13,10 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-public class Client {
-    @Id
-    @Column(name = "id", nullable = false)
-    private Long id;
+public class Client extends BaseEntity {
+
     private String name;
     private String dni;
     private String address;

@@ -14,10 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-public class Reservation {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Reservation extends BaseEntity {
+
     @ManyToOne
     @JoinColumn(name = "client")
     private Client client;
