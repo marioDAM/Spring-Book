@@ -28,7 +28,7 @@ public class BookRepositoryMockTest {
     }
 
     private final Book book = Book.builder()
-            .name("Libro de prueba").author("")
+            .name("Libro de prueba").author("Mario Valverde")
             .ISBN(548566)
             .id(1L)
             .build();
