@@ -4,6 +4,7 @@ import com.example.library.book.config.APIConfig;
 import com.example.library.book.dto.reservation.CreateReservationDTO;
 import com.example.library.book.dto.reservation.ReservationDTO;
 import com.example.library.book.dto.reservation.ReservationRepository;
+import com.example.library.book.errors.ErrorMessage;
 import com.example.library.book.errors.GeneralBadRequestException;
 import com.example.library.book.errors.books.BookNotFoundException;
 import com.example.library.book.errors.books.BooksNotFoundException;
@@ -35,7 +36,7 @@ public class ReservationController {
         try {
             clients = reservationRepository.findAll();
         } catch (Exception e) {
-            throw new GeneralBadRequestException("Selección de Datos", "Parámetros de consulta incorrectos");
+            throw new GeneralBadRequestException(ErrorMessage.RESERVATION_NOT_FOUND);
         }
         if (!clients.isEmpty()) {
             return ResponseEntity.ok(reservaMapper.toDTO(clients));
@@ -64,7 +65,7 @@ public class ReservationController {
             return ResponseEntity.status(HttpStatus.CREATED).body(reservaMapper.toDTO(clientNew));
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            throw new GeneralBadRequestException("Insertar", "Error al insertar el libro. Campos incorrectos " + e.getMessage());
+            throw new GeneralBadRequestException(ErrorMessage.RESERVATION_NOT_CREATED);
         }
     }
 }

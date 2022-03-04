@@ -8,7 +8,7 @@ public class GeneralBadRequestException extends RuntimeException {
     // Por si debemos serializar
     private static final long serialVersionUID = 43876691117560211L;
 
-    public GeneralBadRequestException(String operacion, String error) {
-        super("Error al procesar: " + operacion + " : " + error);
+    public GeneralBadRequestException(String operacion) {
+        super(operacion);
     }
 }

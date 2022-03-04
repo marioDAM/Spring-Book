@@ -4,6 +4,7 @@ import com.example.library.book.config.APIConfig;
 import com.example.library.book.dto.books.BookDTO;
 import com.example.library.book.dto.books.BooksRepository;
 import com.example.library.book.dto.books.CreateBookDTO;
+import com.example.library.book.errors.ErrorMessage;
 import com.example.library.book.errors.GeneralBadRequestException;
 import com.example.library.book.errors.books.BookBadRequestException;
 import com.example.library.book.errors.books.BookNotFoundException;
@@ -58,7 +59,7 @@ public class BooksRestController {
                 }
             }
         } catch (Exception e) {
-            throw new GeneralBadRequestException("Selección de Datos", "Parámetros de consulta incorrectos");
+            throw new GeneralBadRequestException(ErrorMessage.BOOK_NOT_FOUND);
         }
     }
 
@@ -83,7 +84,7 @@ public class BooksRestController {
             return ResponseEntity.status(HttpStatus.CREATED).body(bookMapper.toDTO(bookInsertado));
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            throw new GeneralBadRequestException("Insertar", "Error al insertar el libro. Campos incorrectos " + e.getMessage());
+            throw new GeneralBadRequestException(ErrorMessage.BOOK_NOT_CREATED);
         }
     }
 
