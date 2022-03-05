@@ -12,11 +12,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 public class ClientRepositoryTest {
+//    @Autowired
+//    private TestEntityManager entityManager;
+
     private final Client client = Client.builder()
             .name("Alfonso Jose").dni("7854123Z")
             .address("C/ Señora Begoña")
@@ -25,11 +29,21 @@ public class ClientRepositoryTest {
     @Autowired
     private ClientRepository clientRepository;
 
+//    private void clearData() {
+//        entityManager.getEntityManager().createQuery("delete from Client");
+//        entityManager.getEntityManager().createQuery("delete from Client");
+//        entityManager.getEntityManager().createQuery("delete from Reservation");
+//    }
+
     @Test
     @Order(1)
     public void save() {
+/*        entityManager.persist(client);
+        entityManager.flush();*/
         Client res = clientRepository.save(client);
-
+/*        val res = clientRepository.save(client);
+        assertEquals(res, client);
+        assert (res.getName() == client.getName());*/
         assertAll(
                 () -> assertNotNull(res),
                 () -> assertEquals(client.getName(), res.getName()),
@@ -41,6 +55,7 @@ public class ClientRepositoryTest {
     @Test
     @Order(2)
     public void getAllClients() {
+
         assertTrue(clientRepository.findAll().size() > 0);
     }
 

@@ -21,7 +21,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(APIConfig.API_PATH + "/books")
-
 public class BooksRestController {
 
     private final BooksRepository booksRepository;
@@ -107,6 +106,27 @@ public class BooksRestController {
             return ResponseEntity.ok(bookMapper.toDTO(book));
         } else {
             return null;
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BookDTO> update(@PathVariable Long id, @RequestBody Book book) {
+        try {
+            Book bookActualizado = booksRepository.findById(id).orElse(null);
+            if (bookActualizado == null) {
+                throw new BookNotFoundException(id);
+            } else {
+                checkBookData(book);
+                // Actualizamos los datos que queramos
+                bookActualizado.setName(book.getName());
+                bookActualizado.setAuthor(book.getAuthor());
+                bookActualizado.setISBN(book.getISBN());
+
+                bookActualizado = booksRepository.save(bookActualizado);
+                return ResponseEntity.ok(bookMapper.toDTO(bookActualizado));
+            }
+        } catch (Exception e) {
+            throw new GeneralBadRequestException(ErrorMessage.BOOK_NOT_CREATED);
         }
     }
 }

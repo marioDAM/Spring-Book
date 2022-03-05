@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
-public class BookRepositoryTests {
+public class BookRepositoryTest {
     private final Book book = Book.builder()
             .name("Libro de prueba")
             .author("El mejor")
