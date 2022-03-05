@@ -1,5 +1,15 @@
 CREATE SEQUENCE bookSequence;
 CREATE SEQUENCE clientSequence;
+insert into Client (id, name, dni, address, email, codLibrary)
+values (NEXTVAL('clientSequence'), 'Juan Pablo ', '50086979V', 'C/Los pardos', 'jpablo@hotmail.com', 0);
+insert into Client (id, name, dni, address, email, codLibrary)
+values (NEXTVAL('clientSequence'), 'Andres ', '2154582C', 'C/Los Espartales', 'andy@hotmail.com', 0);
+insert into Client (id, name, dni, address, email, codLibrary)
+values (NEXTVAL('clientSequence'), 'David ', '125487S', 'C/Los Lugareños', 'david@hotmail.com', 0);
+insert into Client (id, name, dni, address, email, codLibrary)
+values (NEXTVAL('clientSequence'), 'Cesar ', '45487956G', 'C/Los Ministros', 'cesar@hotmail.com', 0);
+insert into Client (id, name, dni, address, email, codLibrary)
+values (NEXTVAL('clientSequence'), 'Dima ', '9654785H', 'C/Los Tenientes', 'Dima@hotmail.com', 0);
 insert into Book (id, name, author, ISBN, created_at, isReserved)
 values (NEXTVAL('bookSequence'), 'Señor de los anillos |', 'J.R.R.Tolkien', 976418, '1955-10-12', 0);
 insert into Book (id, name, author, ISBN, created_at, isReserved)
@@ -18,7 +28,3 @@ values (NEXTVAL('bookSequence'), 'Heidi', 'J.Spyri', 396984,
 insert into Book (id, name, author, ISBN, created_at, isReserved)
 values (NEXTVAL('bookSequence'), 'El Hobbit', 'J.R.R.Tolkien', 19198,
         '1937-09-25', 0);
-insert into Client (id, name, dni, address, email, codLibrary)
-values (NEXTVAL('clientSequence'), 'Juan Pablo ', '50086979V', 'C/Los pardos', 'jpablo@hotmail.com', 0);
-insert into Client (id, name, dni, address, email, codLibrary)
-values (NEXTVAL('clientSequence'), 'Andres ', '2154582C', 'C/Los Espartales', 'andy@hotmail.com', 0);
