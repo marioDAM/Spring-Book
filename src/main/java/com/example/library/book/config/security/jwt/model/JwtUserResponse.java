@@ -1,7 +1,6 @@
 package com.example.library.book.config.security.jwt.model;
 
-
-import com.example.library.book.dto.usuarios.GetUsuarioDTO;
+import com.example.library.book.dto.clients.ClientDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,15 +13,15 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class JwtUserResponse extends GetUsuarioDTO {
+public class JwtUserResponse extends ClientDTO {
 
     @NotNull(message = "El token no puede ser nulo")
     private String token;
 
     @Builder(builderMethodName = "jwtUserResponseBuilder") // Lo llamos así por tener dos builder en dos clases.
     // Le añadimos el token
-    public JwtUserResponse(String username, String avatar, String fullName, String email, Set<String> roles, String token) {
-        super(username, avatar, fullName, email, roles);
+    public JwtUserResponse(String name, String dni, String address, String username, String avatar, String email, Set<String> roles, Integer codLibrary, String token) {
+        super(name, dni, address, username, avatar, email, roles, codLibrary);
         this.token = token;
     }
 }

@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -13,7 +13,7 @@ import java.util.Date;
 @Setter
 @Builder
 public class CreateBookDTO {
-    @NotBlank
+    @NotNull
     private Long id;
     private String name;
     private String author;

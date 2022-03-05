@@ -1,6 +1,7 @@
 package com.example.library.book.config.security.jwt;
 
-import com.example.library.book.models.Usuario;
+import com.example.library.book.models.Client;
+import com.example.library.book.models.ClientRol;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
@@ -10,7 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-
+import java.util.stream.Collectors;
 
 @Log
 @Component
@@ -31,7 +32,7 @@ public class JwtTokenProvider {
     public String generateToken(Authentication authentication) {
 
         // Obtenemos el usuario
-        Usuario user = (Usuario) authentication.getPrincipal();
+        Client user = (Client) authentication.getPrincipal();
 
         // Creamos el timepo de vida del token, fecha en milisegunods (*1000) Fecha del sistema
         // Mas duración del token
@@ -51,7 +52,12 @@ public class JwtTokenProvider {
                 .setExpiration(tokenExpirationDate)
                 // Payload o datos extra del token son claims
                 // Name completo del usuario
-                .claim("fullname", user.getFullName())
+                .claim("fullname", user.getName())
+                // Le añadimos los roles o lo que queramos como payload: claims
+                .claim("roles", user.getRoles().stream()
+                        .map(ClientRol::name)
+                        .collect(Collectors.joining(", "))
+                )
                 .compact();
 
     }

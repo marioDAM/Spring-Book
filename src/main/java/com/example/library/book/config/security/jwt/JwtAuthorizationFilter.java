@@ -1,6 +1,6 @@
 package com.example.library.book.config.security.jwt;
 
-import com.example.library.book.models.Usuario;
+import com.example.library.book.models.Client;
 import com.example.library.book.services.users.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -38,10 +38,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 // Obtenemos su ID
                 Long userId = tokenProvider.getUserIdFromJWT(token);
                 // Lo buscamos
-                Usuario user = (Usuario) userDetailsService.loadUserById(userId);
+                Client user = userDetailsService.loadUserById(userId);
                 // Obtenemos la auteticación encapsulada del token: usuario, roles, y las autorizaciones.
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user,
-                        user.getAuthorities());
+                        user.getRoles(), user.getAuthorities());
                 // le vamos a pasar información detro del contexto: dirección remota, session ID, etc.
                 authentication.setDetails(new WebAuthenticationDetails(request));
                 // Guardamos este objeto autetificación en elcontexto de seguridad.

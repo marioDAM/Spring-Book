@@ -1,6 +1,6 @@
 package com.example.library.book.services.users;
 
-import com.example.library.book.models.Usuario;
+import com.example.library.book.models.Client;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,16 +14,16 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UsuarioService usuarioService;
+    private final ClientService usuarioService;
 
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return usuarioService.findUserByUsername(username)
+        return (UserDetails) usuarioService.findUserByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username + " no encontrado"));
     }
 
-    public Usuario loadUserById(Long userId) {
+    public Client loadUserById(Long userId) {
         return usuarioService.findUserById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario con id: " + userId + " no encontrado"));
     }

@@ -1,95 +1,122 @@
 package com.example.library.book.controllers.clients;
 
 import com.example.library.book.config.APIConfig;
+
+import com.example.library.book.config.security.jwt.JwtTokenProvider;
+import com.example.library.book.config.security.jwt.model.JwtUserResponse;
+import com.example.library.book.config.security.jwt.model.LoginRequest;
 import com.example.library.book.dto.clients.ClientDTO;
-import com.example.library.book.dto.clients.ClientRepository;
 import com.example.library.book.dto.clients.CreateClientDTO;
-import com.example.library.book.errors.ErrorMessage;
-import com.example.library.book.errors.GeneralBadRequestException;
-import com.example.library.book.errors.books.BookNotFoundException;
-import com.example.library.book.errors.books.BooksNotFoundException;
 import com.example.library.book.mappers.ClientMapper;
 import com.example.library.book.models.Client;
+import com.example.library.book.models.ClientRol;
+import com.example.library.book.services.users.ClientService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+@RequestMapping(APIConfig.API_PATH + "/clients")
 
 @RestController
-@RequestMapping(APIConfig.API_PATH + "/clients")
+
+// Cuidado que se necesia la barra al final porque la estamos poniendo en los verbos
+
+// Inyeccion de dependencias usando Lombok y private final y no @Autowired, ver otros controladores
+@RequiredArgsConstructor
 public class ClientRestController {
+    private final ClientService usuarioService;
+    private final ClientMapper ususuarioMapper;
 
-    private final ClientRepository repository;
-    private final ClientMapper clientMappe;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider tokenProvider;
 
-    @Autowired
-    public ClientRestController(ClientRepository repository, ClientMapper clientMappe) {
-        this.repository = repository;
-        this.clientMappe = clientMappe;
-    }
-
-    @GetMapping("/")
-    public ResponseEntity<List<ClientDTO>> findAll(@RequestParam(required = false, name = "limit") Optional<String> limit,
-                                                   @RequestParam(required = false, name = "name") Optional<String> name) {
-        List<Client> clients;
-        try {
-            if (name.isPresent()) {
-                clients = repository.findByNameContainsIgnoreCase(name.get());
-            } else {
-                clients = repository.findAll();
-            }
-
-            if (limit.isPresent() && !clients.isEmpty() && clients.size() > Integer.parseInt(limit.get())) {
-
-                return ResponseEntity.ok(clientMappe.toDTO(clients.subList(0, Integer.parseInt(limit.get())))
-                );
-
-            } else {
-                if (!clients.isEmpty()) {
-                    return ResponseEntity.ok(clientMappe.toDTO(clients));
-                } else {
-                    throw new BooksNotFoundException();
-                }
-            }
-        } catch (Exception e) {
-            throw new GeneralBadRequestException(ErrorMessage.CLIENT_NOT_FOUND);
-        }
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<ClientDTO> findById(@PathVariable Long id) {
-        Client client = repository.findById(id).orElse(null);
-        if (client == null) {
-            throw new BookNotFoundException(id);
-        } else {
-            return ResponseEntity.ok(clientMappe.toDTO(client));
-        }
-    }
-
+    @ApiOperation(value = "Crea un usuario")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Usuario creado con éxito"),
+            @ApiResponse(code = 400, message = "Error al crear usuario")
+    })
     @PostMapping("/")
-    public ResponseEntity<ClientDTO> save(@RequestBody CreateClientDTO clientDTO) {
-        try {
-            Client client = clientMappe.fromDTO(clientDTO);
-            Client clientNew = repository.save(client);
-            return ResponseEntity.status(HttpStatus.CREATED).body(clientMappe.toDTO(clientNew));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new GeneralBadRequestException(ErrorMessage.CLIENT_NOT_CREATED);
-        }
+    public ClientDTO nuevoUsuario(@RequestBody CreateClientDTO newUser) {
+        return ususuarioMapper.toDTO(usuarioService.newClient(newUser));
+
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ClientDTO> delete(@PathVariable Long id) {
-
-        if (repository.existsById(id)) {
-            Client book = repository.findById(id).orElse(null);
-            repository.delete(book);
-            return ResponseEntity.ok(clientMappe.toDTO(book));
-        } else {
-            return null;
-        }
+    // Petición me de datos del usuario
+    // Equivalente en ponerlo en config, solo puede entrar si estamos auteticados
+    // De esta forma podemos hacer las rutas espècíficas
+    // @PreAuthorize("isAuthenticated()")
+    @ApiOperation(value = "Devuelve los datos del usuario")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Usuario devuelto"),
+            @ApiResponse(code = 401, message = "No autenticado"),
+            @ApiResponse(code = 403, message = "No autorizado")
+    })
+    @GetMapping("/me")
+    public ClientDTO me(@AuthenticationPrincipal Client user) {
+        return ususuarioMapper.toDTO(user);
     }
+
+    @ApiOperation(value = "Autentica un usuario")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Usuario autenticado y token generado"),
+            @ApiResponse(code = 400, message = "Error al autenticar usuario"),
+    })
+    @PostMapping("/login")
+    public JwtUserResponse login(@Valid @RequestBody LoginRequest loginRequest) {
+        Authentication authentication =
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                loginRequest.getUsername(),
+                                loginRequest.getPassword()
+
+                        )
+                );
+        // Autenticamos al usuario, si lo es nos lo devuelve
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        // Devolvemos al usuario autenticado
+        Client user = (Client) authentication.getPrincipal();
+
+        // Generamos el token
+        String jwtToken = tokenProvider.generateToken(authentication);
+
+        // La respuesta que queremos
+        return convertUserEntityAndTokenToJwtUserResponse(user, jwtToken);
+
+    }
+
+    /**
+     * Método que convierte un usuario y un token a una respuesta de usuario
+     *
+     * @param user     Usuario
+     * @param jwtToken Token
+     * @return JwtUserResponse con el usuario y el token
+     */
+    private JwtUserResponse convertUserEntityAndTokenToJwtUserResponse(Client user, String jwtToken) {
+        return JwtUserResponse
+                .jwtUserResponseBuilder()
+                .name(user.getName())
+                .email(user.getEmail())
+                .username(user.getUsername())
+                .avatar(user.getAvatar())
+                .roles(user.getRoles().stream().map(ClientRol::name).collect(Collectors.toSet()))
+                .token(jwtToken)
+                .build();
+    }
+
 }

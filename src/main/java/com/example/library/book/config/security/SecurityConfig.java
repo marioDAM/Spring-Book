@@ -67,31 +67,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 // Registrarse todos y loguearse todos. De esta manera podemos permitir las consultas a todas las rutas
-                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/usuarios/**").permitAll()
-                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/usuarios/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/clients/**").permitAll()
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/clients/**").hasAnyRole("USER")
 
                 // Permitimos el acceso a todas las rutas de /rest/productos
-                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/productos/**").permitAll()
-                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/productos/**").permitAll()
-                .antMatchers(HttpMethod.PUT, APIConfig.API_PATH + "/productos/**").permitAll()
-                .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/productos/**").permitAll()
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/books/**").permitAll()
+                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/books/**").permitAll()
+                .antMatchers(HttpMethod.PUT, APIConfig.API_PATH + "/books/**").permitAll()
+                .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/books/**").permitAll()
                 // Permitimos el acceso a todas las rutas de /rest/files
-                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/files/**").permitAll()
-                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/files/**").permitAll()
-
                 // Loguearse, si estyuviese en otra ruta
                 //.antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/auth/login").permitAll()
 
                 // Jugamos ahora con /auth/productos
 
-                // Consultar productos solo los usuarios registrados pueden hacerlo
-                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/auth/productos/**").hasAnyRole("USER", "ADMIN")
+                // Consultar productos solo los clients registrados pueden hacerlo
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/auth/reservations/**").hasAnyRole("USER")
                 // Añadir productos solo los administradores
-                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/auth/productos/**").hasRole("ADMIN")
-                // Actualizar productos solo los usuarios
-                .antMatchers(HttpMethod.PUT, APIConfig.API_PATH + "/auth/productos/**").hasRole("USER")
+                // Actualizar productos solo los clients
+                .antMatchers(HttpMethod.PUT, APIConfig.API_PATH + "/auth/reservations/**").hasRole("USER")
+                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/auth/reservations/**").hasRole("USER")
+                .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/auth/reservations/**").hasRole("USER")
+
+
                 // Eliminar productos solo el administrador
-                .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/auth/productos/**").hasRole("ADMIN")
 
                 // Cuidado que la ruta a la consola de H2 está capada, debemos darle acceso a todos temporalmente
                 //.antMatchers("/h2-console").permitAll()

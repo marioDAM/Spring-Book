@@ -12,20 +12,19 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.HttpStatus;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-@AutoConfigureMockMvc
-@AutoConfigureJsonTesters
+@Transactional
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BookRestControllerMockTest {
     @Autowired
     private TestEntityManager entityManager;
@@ -37,7 +36,7 @@ public class BookRestControllerMockTest {
 
 
     private void clearData() {
-        entityManager.getEntityManager().createQuery("delete from Client");
+        entityManager.getEntityManager().createQuery("delete from Book");
         entityManager.getEntityManager().createQuery("delete from Client");
         entityManager.getEntityManager().createQuery("delete from Reservation");
     }
