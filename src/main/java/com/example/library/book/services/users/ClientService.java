@@ -22,6 +22,8 @@ public class ClientService {
 
     /**
      * Nos permite buscar un usuario por su name de usuario
+     *
+     * @return
      */
     public Optional<Client> findUserByUsername(String username) {
         return clientRepository.findByUsername(username);

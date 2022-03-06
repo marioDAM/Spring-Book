@@ -68,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // Registrarse todos y loguearse todos. De esta manera podemos permitir las consultas a todas las rutas
                 .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/clients/**").permitAll()
-                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/clients/**").hasAnyRole("USER")
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/clients/**").permitAll()
 
                 // Permitimos el acceso a todas las rutas de /rest/productos
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/books/**").permitAll()
@@ -82,12 +82,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // Jugamos ahora con /auth/productos
 
                 // Consultar productos solo los clients registrados pueden hacerlo
-                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/auth/reservations/**").hasAnyRole("USER")
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/auth/reservations/**").hasAnyRole(" CLIENT")
                 // Añadir productos solo los administradores
                 // Actualizar productos solo los clients
-                .antMatchers(HttpMethod.PUT, APIConfig.API_PATH + "/auth/reservations/**").hasRole("USER")
-                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/auth/reservations/**").hasRole("USER")
-                .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/auth/reservations/**").hasRole("USER")
+                .antMatchers(HttpMethod.PUT, APIConfig.API_PATH + "/auth/reservations/**").hasRole(" CLIENT")
+                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/auth/reservations/**").hasRole(" CLIENT")
+                .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/auth/reservations/**").hasRole(" CLIENT")
 
 
                 // Eliminar productos solo el administrador

@@ -7,6 +7,7 @@ import com.example.library.book.config.security.jwt.model.JwtUserResponse;
 import com.example.library.book.config.security.jwt.model.LoginRequest;
 import com.example.library.book.dto.clients.ClientDTO;
 import com.example.library.book.dto.clients.CreateClientDTO;
+import com.example.library.book.errors.GeneralBadRequestException;
 import com.example.library.book.mappers.ClientMapper;
 import com.example.library.book.models.Client;
 import com.example.library.book.models.ClientRol;
@@ -15,6 +16,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,9 +41,17 @@ public class ClientRestController {
 
     private final ClientService usuarioService;
     private final ClientMapper ususuarioMapper;
-
+    @Autowired
+    private ModelMapper modelMapper;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
+
+ /*   @GetMapping(value = "/{username}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public ClientDTO findByUsername(@PathVariable("username") String username) throws GeneralBadRequestException {
+        return ususuarioMapper.toDTO(usuarioService.findUserByUsername(username));
+
+    }*/
 
     @ApiOperation(value = "Crea un usuario")
     @ApiResponses(value = {

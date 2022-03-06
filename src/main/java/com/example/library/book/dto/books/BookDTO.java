@@ -18,4 +18,11 @@ public class BookDTO {
     private LocalDateTime createdAt = LocalDateTime.now();
     private Boolean isReserved;
 
+    public BookDTO(String name, String author, Integer ISBN, LocalDateTime createdAt, Boolean isReserved) {
+        this.name = name;
+        this.author = author;
+        this.ISBN = ISBN;
+        this.createdAt = createdAt;
+        this.isReserved = isReserved;
+    }
 }
