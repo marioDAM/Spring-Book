@@ -1,4 +1,4 @@
-/*CREATE SEQUENCE bookSequence;
+CREATE SEQUENCE bookSequence;
 CREATE SEQUENCE clientSequence;
 insert into Client (id, name,username, dni, address, email,password, codLibrary)
 values (NEXTVAL('clientSequence'), 'Juan Pablo ','hg', '50086979V', 'C/Los pardos', 'jpablo@hotmail.com','555', 0);
@@ -28,4 +28,3 @@ values (NEXTVAL('bookSequence'), 'Heidi', 'J.Spyri', 396984,
 insert into Book (id, name, author, ISBN, created_at, isReserved)
 values (NEXTVAL('bookSequence'), 'El Hobbit', 'J.R.R.Tolkien', 19198,
         '1937-09-25', 0);
-*/

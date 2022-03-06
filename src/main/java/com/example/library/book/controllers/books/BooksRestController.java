@@ -11,6 +11,9 @@ import com.example.library.book.errors.books.BookNotFoundException;
 import com.example.library.book.errors.books.BooksNotFoundException;
 import com.example.library.book.mappers.BookMapper;
 import com.example.library.book.models.Book;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,7 +76,11 @@ public class BooksRestController {
             throw new BookBadRequestException("ISBN", "El ISBN es obligatorio");
         }
     }
-
+    @ApiOperation(value = "Crea un libro con imagen", notes = "Crea un libro con imagen")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Book.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class),
+    })
     @PostMapping("/")
     public ResponseEntity<BookDTO> save(@RequestBody CreateBookDTO bookDTO) {
         try {
@@ -87,6 +94,12 @@ public class BooksRestController {
         }
     }
 
+    @ApiOperation(value = "Obtener un libro por su ID", notes = "Provee un mecanismo para obtener todos los datos de un libro por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Book.class),
+            @ApiResponse(code = 404, message = "Not Found", response = BooksNotFoundException.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = GeneralBadRequestException.class)
+    })
     @GetMapping("/{id}")
     public ResponseEntity<BookDTO> findById(@PathVariable Long id) {
         Book producto = booksRepository.findById(id).orElse(null);
@@ -96,6 +109,12 @@ public class BooksRestController {
             return ResponseEntity.ok(bookMapper.toDTO(producto));
         }
     }
+    @ApiOperation(value = "Eliminar un libro", notes = "Elimina un libro dado su id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Book.class),
+            @ApiResponse(code = 404, message = "Not Found", response = BooksNotFoundException.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
+    })
 
     @DeleteMapping("/{id}")
     public ResponseEntity<BookDTO> delete(@PathVariable Long id) {

@@ -15,9 +15,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,8 +23,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequestMapping(APIConfig.API_PATH + "/clients")
@@ -39,6 +34,7 @@ import java.util.stream.Collectors;
 // Inyeccion de dependencias usando Lombok y private final y no @Autowired, ver otros controladores
 @RequiredArgsConstructor
 public class ClientRestController {
+
     private final ClientService usuarioService;
     private final ClientMapper ususuarioMapper;
 
@@ -111,8 +107,11 @@ public class ClientRestController {
         return JwtUserResponse
                 .jwtUserResponseBuilder()
                 .name(user.getName())
-                .email(user.getEmail())
                 .username(user.getUsername())
+                .email(user.getEmail())
+                .address(user.getAddress())
+                .dni(user.getDni())
+                .codLibrary(user.getCodLibrary())
                 .avatar(user.getAvatar())
                 .roles(user.getRoles().stream().map(ClientRol::name).collect(Collectors.toSet()))
                 .token(jwtToken)

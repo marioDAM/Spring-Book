@@ -34,7 +34,7 @@ public class JwtTokenProvider {
         // Obtenemos el usuario
         Client user = (Client) authentication.getPrincipal();
 
-        // Creamos el timepo de vida del token, fecha en milisegunods (*1000) Fecha del sistema
+        // Creamos el tiempo de vida del token, fecha en milisegunods (*1000) Fecha del sistema
         // Mas duración del token
         Date tokenExpirationDate = new Date(System.currentTimeMillis() + (jwtDuracionTokenEnSegundos * 1000));
 
@@ -65,14 +65,6 @@ public class JwtTokenProvider {
     // A partir de un token obetner el ID de usuario
     public Long getUserIdFromJWT(String token) {
         // Obtenemos los claims del token
-        /*Claims claims = Jwts.parser()
-                // Obtenemos la firma
-                .setSigningKey(Keys.hmacShaKeyFor(jwtSecreto.getBytes()))
-                // Obtenemlos el cuerpo de los claims
-                .parseClaimsJws(token)
-                .getBody();
-        // Devolvemos el ID
-        return Long.parseLong(claims.getSubject());*/
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(jwtSecreto.getBytes()))
                 .build()
@@ -80,14 +72,12 @@ public class JwtTokenProvider {
                 .getBody();
         // Devolvemos el ID
         return Long.parseLong(claims.getSubject());
-
     }
 
-    // Nos idica como validar el Token
+    // Nos indica como validar el Token
     public boolean validateToken(String authToken) {
 
         try {
-            // Jwts.parser().setSigningKey(jwtSecreto.getBytes()).parseClaimsJws(authToken);
             Jwts.parserBuilder()
                     .setSigningKey(Keys.hmacShaKeyFor(jwtSecreto.getBytes()))
                     .build()

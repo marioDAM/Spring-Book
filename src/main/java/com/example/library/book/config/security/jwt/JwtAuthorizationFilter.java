@@ -49,7 +49,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
             }
         } catch (Exception ex) {
-            log.info("No se ha podido establecer la autenticación de usuario en el contexto de seguridad");
+            log.info("No se ha podido establecer la autenticación de cliente en el contexto de seguridad");
         }
 
         filterChain.doFilter(request, response);

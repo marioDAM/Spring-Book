@@ -3,6 +3,7 @@ package com.example.library.book.config.swagger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -13,8 +14,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
 
-// http://localhost:XXXX/swagger-ui/index.html
-@EnableWebMvc // Importante con el nuevo Swagger3 y Spring 2.6.x
+// http://localhost:6969/swagger-ui/index.html
+// Importante con el nuevo Swagger3 y Spring 2.6.x
+@EnableWebMvc
 @EnableSwagger2
 @Configuration
 public class SwaggerConfig {
@@ -23,14 +25,13 @@ public class SwaggerConfig {
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                //.apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
-                .apis(RequestHandlerSelectors.basePackage("es.joseluisgs.springdam.controller"))
-                //.paths(PathSelectors.ant("/controllers/*"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.library.book.controllers"))
+                .paths(PathSelectors.any())
                 .build()
                 .apiInfo(metaInfo());
     }
-
     private ApiInfo metaInfo() {
 
         return new ApiInfo(

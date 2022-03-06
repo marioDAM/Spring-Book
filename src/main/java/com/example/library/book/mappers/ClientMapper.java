@@ -19,11 +19,11 @@ public class ClientMapper {
     public ClientDTO toDTO(Client user) {
         return ClientDTO.builder()
                 .name(user.getName())
-                .dni(user.getDni())
-                .address(user.getAddress())
-                .codLibrary(user.getCodLibrary())
-                .email(user.getEmail())
                 .username(user.getUsername())
+                .email(user.getEmail())
+                .address(user.getAddress())
+                .dni(user.getDni())
+                .codLibrary(user.getCodLibrary())
                 .avatar(user.getAvatar())
                 .build();
     }

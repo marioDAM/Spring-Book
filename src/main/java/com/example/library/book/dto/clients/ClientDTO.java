@@ -1,11 +1,7 @@
 package com.example.library.book.dto.clients;
-
 import lombok.*;
-
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
-
 @Getter
 @Setter
 @Builder
