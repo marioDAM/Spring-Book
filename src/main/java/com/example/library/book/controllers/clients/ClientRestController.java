@@ -5,10 +5,16 @@ import com.example.library.book.config.APIConfig;
 import com.example.library.book.config.security.jwt.JwtTokenProvider;
 import com.example.library.book.config.security.jwt.model.JwtUserResponse;
 import com.example.library.book.config.security.jwt.model.LoginRequest;
+import com.example.library.book.dto.books.BookDTO;
 import com.example.library.book.dto.clients.ClientDTO;
+import com.example.library.book.dto.clients.ClientRepository;
 import com.example.library.book.dto.clients.CreateClientDTO;
+import com.example.library.book.errors.ErrorMessage;
 import com.example.library.book.errors.GeneralBadRequestException;
+import com.example.library.book.errors.books.BookNotFoundException;
+import com.example.library.book.errors.books.BooksNotFoundException;
 import com.example.library.book.mappers.ClientMapper;
+import com.example.library.book.models.Book;
 import com.example.library.book.models.Client;
 import com.example.library.book.models.ClientRol;
 import com.example.library.book.services.users.ClientService;
@@ -19,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,6 +34,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequestMapping(APIConfig.API_PATH + "/clients")
@@ -41,17 +50,11 @@ public class ClientRestController {
 
     private final ClientService usuarioService;
     private final ClientMapper ususuarioMapper;
+    private final ClientRepository clientRepository;
     @Autowired
     private ModelMapper modelMapper;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
-
- /*   @GetMapping(value = "/{username}")
-    @ResponseStatus(code = HttpStatus.OK)
-    public ClientDTO findByUsername(@PathVariable("username") String username) throws GeneralBadRequestException {
-        return ususuarioMapper.toDTO(usuarioService.findUserByUsername(username));
-
-    }*/
 
     @ApiOperation(value = "Crea un usuario")
     @ApiResponses(value = {
@@ -106,6 +109,35 @@ public class ClientRestController {
         // La respuesta que queremos
         return convertUserEntityAndTokenToJwtUserResponse(user, jwtToken);
 
+    }
+
+
+    @GetMapping("/")
+    public ResponseEntity<List<ClientDTO>> findAll(@RequestParam(required = false, name = "limit") Optional<String> limit,
+                                                   @RequestParam(required = false, name = "name") Optional<String> name) {
+        List<Client> clients;
+        try {
+            if (name.isPresent()) {
+                clients = clientRepository.findByNameContainsIgnoreCase(name.get());
+            } else {
+                clients = clientRepository.findAll();
+            }
+
+            if (limit.isPresent() && !clients.isEmpty() && clients.size() > Integer.parseInt(limit.get())) {
+
+                return ResponseEntity.ok(ususuarioMapper.toDTO(clients.subList(0, Integer.parseInt(limit.get())))
+                );
+
+            } else {
+                if (!clients.isEmpty()) {
+                    return ResponseEntity.ok(ususuarioMapper.toDTO(clients));
+                } else {
+                    throw new BooksNotFoundException();
+                }
+            }
+        } catch (Exception e) {
+            throw new GeneralBadRequestException(ErrorMessage.CLIENT_NOT_FOUND);
+        }
     }
 
     /**

@@ -17,6 +17,7 @@ import java.util.List;
 @Data
 @Builder
 public class Book {
+
     @ApiModelProperty(value="ID del libro", dataType="long",  example="1", position=1)
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

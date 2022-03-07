@@ -76,6 +76,7 @@ public class BooksRestController {
             throw new BookBadRequestException("ISBN", "El ISBN es obligatorio");
         }
     }
+
     @ApiOperation(value = "Crea un libro con imagen", notes = "Crea un libro con imagen")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = Book.class),
@@ -109,6 +110,7 @@ public class BooksRestController {
             return ResponseEntity.ok(bookMapper.toDTO(producto));
         }
     }
+
     @ApiOperation(value = "Eliminar un libro", notes = "Elimina un libro dado su id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = Book.class),
@@ -136,7 +138,7 @@ public class BooksRestController {
                 throw new BookNotFoundException(id);
             } else {
                 checkBookData(book);
-                // Actualizamos los datos que queramos
+
                 bookActualizado.setName(book.getName());
                 bookActualizado.setAuthor(book.getAuthor());
                 bookActualizado.setISBN(book.getISBN());

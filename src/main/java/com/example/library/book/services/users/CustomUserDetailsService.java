@@ -13,7 +13,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final ClientService usuarioService;
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return usuarioService.findUserByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username + " no encontrado"));
@@ -21,6 +20,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public Client loadUserById(Long userId) {
         return usuarioService.findUserById(userId)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario con id: " + userId + " no encontrado"));
+                .orElseThrow(() -> new UsernameNotFoundException("Cliente con id: " + userId + " no encontrado"));
     }
 }
