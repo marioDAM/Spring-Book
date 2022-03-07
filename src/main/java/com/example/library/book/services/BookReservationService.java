@@ -120,10 +120,10 @@ public class BookReservationService {
     }
 
     /**
-     * Desasocia un Author existente de un Book existente
+     * Desasocia una Reserva existente de un Book existente
      *
      * @param bookId        Identificador de la instancia de Book
-     * @param reservationId Identificador de la instancia de Author
+     * @param reservationId Identificador de la instancia de Reserva
      */
     @Transactional
     public void removeReservation(Long bookId, Long reservationId) throws EntityNotFoundException {
