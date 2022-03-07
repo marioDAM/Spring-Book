@@ -1,5 +1,5 @@
 CREATE SEQUENCE bookSequence;
-/*CREATE SEQUENCE clientSequence;
+CREATE SEQUENCE clientSequence;
 insert into Client (id, name,username, dni, address, email,password, codLibrary)
 values (NEXTVAL('clientSequence'), 'Juan Pablo ','hg', '50086979V', 'C/Los pardos', 'jpablo@hotmail.com','555', 0);
 insert into Client (id, name,username, dni, address, email,password, codLibrary)
@@ -9,7 +9,7 @@ values (NEXTVAL('clientSequence'), 'David ','sg', '125487S', 'C/Los Lugareños',
 insert into Client (id, name,username, dni, address, email,password, codLibrary)
 values (NEXTVAL('clientSequence'), 'Cesar ','hl', '45487956G', 'C/Los Ministros', 'cesar@hotmail.com','12564', 3);
 insert into Client (id, name,username, dni, address, email,password, codLibrary)
-values (NEXTVAL('clientSequence'), 'Dima ','lk', '9654785H', 'C/Los Tenientes', 'Dima@hotmail.com','125', 4);*/
+values (NEXTVAL('clientSequence'), 'Dima ','lk', '9654785H', 'C/Los Tenientes', 'Dima@hotmail.com','125', 4);
 insert into Book (id, name, author, ISBN, created_at, isReserved)
 values (NEXTVAL('bookSequence'), 'Señor de los anillos |', 'J.R.R.Tolkien', 976418, '1955-10-12', 0);
 insert into Book (id, name, author, ISBN, created_at, isReserved)
