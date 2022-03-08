@@ -6,7 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-// Indicamos que para toda la api cada vez que inyectemos o llamemos a PasswordEncoder este será del tipo BCryptPasswordEncoder
+
 public class PasswordEncoderConfig {
 
     @Bean

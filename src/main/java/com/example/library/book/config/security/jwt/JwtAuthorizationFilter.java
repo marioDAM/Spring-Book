@@ -25,21 +25,19 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider tokenProvider;
     private final CustomUserDetailsService userDetailsService;
 
-    // Comprueba la autorización a través del token
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
         try {
-            // Sacamos el token
             String token = getJwtFromRequest(request);
-            // Si el token existe y es válido
             if (StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
-                // Obtenemos su ID
+
                 Long userId = tokenProvider.getUserIdFromJWT(token);
-                // Lo buscamos
+
                 Client user = userDetailsService.loadUserById(userId);
-                // Obtenemos la auteticación encapsulada del token: usuario, roles, y las autorizaciones.
+
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user,
                         user.getRoles(), user.getAuthorities());
                 // le vamos a pasar información detro del contexto: dirección remota, session ID, etc.
@@ -56,11 +54,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     }
 
-    // Procesamos el Token del Request
+
     private String getJwtFromRequest(HttpServletRequest request) {
-        // Tomamos la cabecera
+
         String bearerToken = request.getHeader(JwtTokenProvider.TOKEN_HEADER);
-        // Si tiene el prefijo y es de la logitud indicada
+
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(JwtTokenProvider.TOKEN_PREFIX)) {
             return bearerToken.substring(JwtTokenProvider.TOKEN_PREFIX.length());
         }

@@ -22,15 +22,13 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
 
-        // Estado de la respuesta a no autorizado, pero como JSON
+
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json");
 
-        // Construimos nuestro error con el mensaje de la excepción
         Map<HttpStatus, String> error = Map.of(HttpStatus.UNAUTHORIZED, authException.getMessage());
         String strApiError = mapper.writeValueAsString(error);
 
-        // Lo devolvemos
         PrintWriter writer = response.getWriter();
         writer.println(strApiError);
 

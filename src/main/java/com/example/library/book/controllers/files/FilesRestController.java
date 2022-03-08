@@ -29,8 +29,7 @@ public class FilesRestController {
         this.storageService = storageService;
     }
 
-    // Devuelve el fichero indicado por fichero y su contenido
-    // Usamos el request para tener los datos de la petición
+
     @ApiOperation(value = "Obtiene un fichero en base a su name y url", notes = "Devuelve el fichero indicado por fichero por su name en url")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = Resource.class),
@@ -63,12 +62,11 @@ public class FilesRestController {
             @ApiResponse(code = 400, message = "Bad Request", response = StorageException.class),
     })
     @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    // Aunque no es obligatorio, podemos indicar que se consume multipart/form-data
-    // Para ficheros usamos, Resuqest part, porque lo tenemos dividido en partes
+
     public ResponseEntity<Map<String, Object>> uploadFile(
             @RequestPart("file") MultipartFile file) {
 
-        // Almacenamos el fichero y obtenemos su URL
+
         String urlImagen = null;
 
         try {
@@ -85,6 +83,4 @@ public class FilesRestController {
         }
     }
 
-    // Implementar el resto de metodos del servicio que nos interesen...
-    // Delete file, listar ficheros, etc....
 }

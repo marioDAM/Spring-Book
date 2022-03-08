@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 
-// Para el login
+
 public class LoginRequest {
     @NotNull(message = "El campo username no puede estar vacío")
     private String username;

@@ -27,9 +27,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-// Definimos la url o entrada de la API REST, este caso la raíz: localhost:8080/rest/auth
-// Esto es para jugar con los Auth y tokens
-@RequiredArgsConstructor // inyección de dependencias usando Lombok, comparar en No Auth
+
+@RequiredArgsConstructor
 @RequestMapping(APIConfig.API_PATH + "/auth/reservations")
 public class ReservationAuthController {
     private final ReservationRepository ReservationRepository;
@@ -110,7 +109,7 @@ public class ReservationAuthController {
     @PostMapping("/")
     public ResponseEntity<?> save(@RequestBody CreateReservationDTO reservationDTO) {
         try {
-            // Comprobamos los campos obligatorios
+
             Reservation reservation = reservationMapper.fromDTO(reservationDTO);
             Reservation reservationInsertado = ReservationRepository.save(reservation);
             return ResponseEntity.ok(reservationMapper.toDTO(reservationInsertado));
@@ -159,7 +158,7 @@ public class ReservationAuthController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        // Consulto en base a las páginas
+
         Pageable paging = PageRequest.of(page, size);
         Page<Reservation> pagedResult;
         try {
@@ -168,9 +167,7 @@ public class ReservationAuthController {
                 Exception e) {
             throw new GeneralBadRequestException(ErrorMessage.RESERVATION_NOT_FOUND);
         }
-        // De la página saco la lista de Reservation
-        //List<reservation> Reservation = pagedResult.getContent();
-        // Mapeo al DTO. Si quieres ver toda la info de las paginas pon pageResult.
+
         ListReservationPageDTO listreservationPageDTO = ListReservationPageDTO.builder()
                 .data(reservationMapper.toDTO(pagedResult.getContent()))
                 .totalPages(pagedResult.getTotalPages())

@@ -17,43 +17,40 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenProvider {
     // Naturaleza del Token!!!
-    public static final String TOKEN_HEADER = "Authorization"; // Encabezado
-    public static final String TOKEN_PREFIX = "Bearer "; // Prefijo, importante este espacio
-    public static final String TOKEN_TYPE = "JWT"; // Tipo de Token
+    public static final String TOKEN_HEADER = "Authorization";
+    public static final String TOKEN_PREFIX = "Bearer ";
+    public static final String TOKEN_TYPE = "JWT";
 
     @Value("${jwt.secret:EnUnLugarDeLaManchaDeCuyoNameNoQuieroAcordarmeNoHaMuchoTiempoQueViviaUnHidalgo}")
-    private String jwtSecreto; // Secreto, lo cargamos de properties y si no le asignamos un valor por defecto
+    private String jwtSecreto;
 
     @Value("${jwt.token-expiration:86400}")
-    private int jwtDuracionTokenEnSegundos; // Tiempo de expiración, idem a secreto
+    private int jwtDuracionTokenEnSegundos;
 
 
-    // Genera el Token
+
     public String generateToken(Authentication authentication) {
 
-        // Obtenemos el usuario
+
         Client user = (Client) authentication.getPrincipal();
 
-        // Creamos el tiempo de vida del token, fecha en milisegunods (*1000) Fecha del sistema
-        // Mas duración del token
+
         Date tokenExpirationDate = new Date(System.currentTimeMillis() + (jwtDuracionTokenEnSegundos * 1000));
 
-        // Construimos el token con sus datos y payload
         return Jwts.builder()
-                // Lo firmamos con nuestro secreto HS512
+
                 .signWith(Keys.hmacShaKeyFor(jwtSecreto.getBytes()), SignatureAlgorithm.HS512)
-                // Tipo de token
+
                 .setHeaderParam("typ", TOKEN_TYPE)
-                // Como Subject el ID del usuario
+
                 .setSubject(Long.toString(user.getId()))
-                // Fecha actual
+
                 .setIssuedAt(new Date())
-                // Fecha de expiración
+
                 .setExpiration(tokenExpirationDate)
-                // Payload o datos extra del token son claims
-                // Name completo del usuario
+
                 .claim("fullname", user.getName())
-                // Le añadimos los roles o lo que queramos como payload: claims
+
                 .claim("roles", user.getRoles().stream()
                         .map(ClientRol::name)
                         .collect(Collectors.joining(", "))
@@ -62,19 +59,19 @@ public class JwtTokenProvider {
 
     }
 
-    // A partir de un token obetner el ID de usuario
+
     public Long getUserIdFromJWT(String token) {
-        // Obtenemos los claims del token
+
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(jwtSecreto.getBytes()))
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-        // Devolvemos el ID
+
         return Long.parseLong(claims.getSubject());
     }
 
-    // Nos indica como validar el Token
+
     public boolean validateToken(String authToken) {
 
         try {
