@@ -54,11 +54,21 @@
 		{
 			"name": "POST",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMDAiLCJpYXQiOjE2NDY3NDE5MzYsImV4cCI6MTY0NjgyODMzNiwiZnVsbG5hbWUiOiJBbmR5IEx1Y2FzIiwicm9sZXMiOiJDTElFTlQifQ.H9ft2Y0ELz6-MV4atzRrIKOulG6EGz0qEx41vLFUn3MIrJaCMQg-otYYsQ5a8lzPCG_wfE0diRmtF1OsbvWO_w",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\":\"Bad Pat\",\r\n    \"autor\":\"Pablo can roca\",\r\n    \"isbn\": 567464,\r\n    \"createdAt\": \"{{current_timestamp}}\",\r\n    \"esAlquilado\":0\r\n\r\n}",
+					"raw": "{   \r\n    \"name\":\"Bad Pat\",\r\n    \"author\":\"Pablo can roca\",\r\n    \"isbn\": 567464,\r\n    \"createdAt\": \"{{current_timestamp}}\",\r\n    \"isReserved\":0,\r\n    \"category\":\"Terror\",\r\n    \"description\":\"HOla\"\r\n\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

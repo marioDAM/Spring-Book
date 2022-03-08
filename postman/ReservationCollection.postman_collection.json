@@ -51,6 +51,36 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "POST RESERVATION",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6969/rest/reservations/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"rest",
+						"reservations",
+						""
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

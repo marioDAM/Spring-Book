@@ -47,9 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    /*
-    Configuración de autorización según verbos y rutas
-     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -59,35 +56,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
-                // Para el establecimiento de sesiones son estado, no usamos sesiones
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                // Autorizamos con roles y acceso
                 .authorizeRequests()
 
-                // Registrarse todos y loguearse todos. De esta manera podemos permitir las consultas a todas las rutas
                 .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/clients/**").permitAll()
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/clients/**").permitAll()
 
-                // Permitimos el acceso a todas las rutas de /rest/productos
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/books/**").permitAll()
                 .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/books/**").hasRole("CLIENT")
                 .antMatchers(HttpMethod.PUT, APIConfig.API_PATH + "/books/**").permitAll()
                 .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/books/**").permitAll()
-                // Permitimos el acceso a todas las rutas de /rest/files
-                // Loguearse, si estyuviese en otra ruta
-                //.antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/auth/login").permitAll()
 
-                // Jugamos ahora con /auth/productos
-
-                // Consultar productos solo los clients registrados pueden hacerlo
-                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/auth/reservations/**").hasAnyRole(" CLIENT")
-                // Añadir productos solo los administradores
-                // Actualizar productos solo los clients
-                .antMatchers(HttpMethod.PUT, APIConfig.API_PATH + "/auth/reservations/**").hasAnyRole(" CLIENT")
-                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/auth/reservations/**").hasRole(" CLIENT")
-                .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/auth/reservations/**").hasRole(" CLIENT")
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/auth/reservations/**").hasRole("CLIENT")
+                .antMatchers(HttpMethod.PUT, APIConfig.API_PATH + "/auth/reservations/**").hasRole("CLIENT")
+                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/auth/reservations/**").hasRole("CLIENT")
+                .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/auth/reservations/**").hasRole("CLIENT")
 
                 .anyRequest().not().authenticated();
 
