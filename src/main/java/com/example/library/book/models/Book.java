@@ -31,6 +31,8 @@ public class Book {
     private LocalDateTime createdAt = LocalDateTime.now();
     @Column(name = "ISRESERVED", nullable = false, columnDefinition = "TINYINT(1)")
     private Boolean isReserved;
+    private String category;
+    private String description;
     @ManyToMany
     private List<Reservation> reservations;
 

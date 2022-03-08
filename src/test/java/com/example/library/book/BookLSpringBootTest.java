@@ -11,4 +11,8 @@ public class BookLSpringBootTest {
     public void contextLoads() {
         assertTrue(true);
     }
+    @Test
+    void trueIsTrue() {
+        assertTrue(true);
+    }
 }

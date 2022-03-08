@@ -20,6 +20,8 @@ public class CreateBookDTO {
     private Integer ISBN;
     private LocalDateTime createdAt = LocalDateTime.now();
     private Boolean isReserved;
+    private String category;
+    private String description;
 
 
 }
