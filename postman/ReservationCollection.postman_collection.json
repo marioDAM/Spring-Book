@@ -1,0 +1,56 @@
+{
+	"info": {
+		"_postman_id": "2e7241f0-6335-4b20-8a5e-f51bbbb7891a",
+		"name": "ReservationCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST AUTH RESERVATION",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQ2NzExMzU2LCJleHAiOjE2NDY3OTc3NTYsImZ1bGxuYW1lIjoiQW5keSBMdWNhcyIsInJvbGVzIjoiQ0xJRU5UIn0.YVi9QC6lIStqnMKGeLD_R_HkGJJwBL86cSB02OFeE3-dlBPReZjCXPRaJFOKEzonpJvBOnyZLSdf17hf1Hexxg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQ2NzExMzU2LCJleHAiOjE2NDY3OTc3NTYsImZ1bGxuYW1lIjoiQW5keSBMdWNhcyIsInJvbGVzIjoiQ0xJRU5UIn0.YVi9QC6lIStqnMKGeLD_R_HkGJJwBL86cSB02OFeE3-dlBPReZjCXPRaJFOKEzonpJvBOnyZLSdf17hf1Hexxg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6969/rest/auth/reservations/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"rest",
+						"auth",
+						"reservations",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

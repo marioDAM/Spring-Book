@@ -49,7 +49,7 @@ public class ReservationController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ReservationDTO> findById(@PathVariable Long id) {
-        Reservation client = reservationRepository.findById(id).orElse(null);
+        Reservation client = reservationRepository.findAllById(id).get(0);
         if (client == null) {
             throw new BookNotFoundException(id);
         } else {

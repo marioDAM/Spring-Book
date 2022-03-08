@@ -10,6 +10,6 @@ public class BookNotFoundException extends RuntimeException {
     private static final long serialVersionUID = 43876691117560211L;
 
     public BookNotFoundException(Long id) {
-        super("No se puede encontrar el producto con la ID: " + id);
+        super("No se puede encontrar el libro con la ID: " + id);
     }
 }

@@ -3,7 +3,9 @@ package com.example.library.book.mappers;
 import com.example.library.book.dto.clients.ClientDTO;
 import com.example.library.book.dto.clients.CreateClientDTO;
 import com.example.library.book.dto.clients.ListClientsDTO;
+
 import com.example.library.book.models.Client;
+import com.example.library.book.models.ClientRol;
 import lombok.RequiredArgsConstructor;
 
 import org.modelmapper.ModelMapper;
@@ -15,13 +17,22 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class ClientMapper {
-    private final ModelMapper modelMapper;
-
-
-    public ClientDTO toDTO(Client client) {
-        return modelMapper.map(client, ClientDTO.class);
-
+    public ClientDTO toDTO(Client user) {
+        return ClientDTO.builder()
+                .name(user.getName())
+                .username(user.getUsername())
+                .roles(user.getRoles().stream()
+                        .map(ClientRol::name)
+                        .collect(Collectors.toSet()))
+                        .email(user.getEmail())
+                        .address(user.getAddress())
+                        .dni(user.getDni())
+                        .codLibrary(user.getCodLibrary())
+                        .avatar(user.getAvatar())
+                        .build();
     }
+
+    private final ModelMapper modelMapper;
 
     public Client fromDTO(ClientDTO bookDTO) {
         return modelMapper.map(bookDTO, Client.class);

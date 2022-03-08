@@ -1,0 +1,100 @@
+{
+	"info": {
+		"_postman_id": "8a1b700e-4fc8-49b1-8706-ca232c1069f8",
+		"name": "ClientCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CREATE CLIENT",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \r\n    \"username\":\"Andy\",\r\n    \"dni\":\"5455545S\",\r\n    \"password\":\"assd\",\r\n    \"password2\":\"assd\",\r\n    \"address\":\"ccc\",\r\n    \"name\":\"Andy Lucas\",\r\n    \"email\":\"andy@gmail.com\",\r\n    \"codLibrary\":\"0\",\r\n    \"avatar\":\"cedscs\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6969/rest/clients/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"rest",
+						"clients",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"Andy\",\r\n    \"password\":\"assd\",\r\n    \"password2\":\"assd\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6969/rest/clients/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"rest",
+						"clients",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET CLIENT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:6969/rest/clients/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"rest",
+						"clients",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
