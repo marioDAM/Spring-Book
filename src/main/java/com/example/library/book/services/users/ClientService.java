@@ -63,27 +63,4 @@ public class ClientService {
 
     }
 
-    public Client nuevoAdmin(CreateClientDTO newClient) {
-        System.out.println(passwordEncoder.encode(newClient.getPassword()));
-        if (newClient.getPassword().contentEquals(newClient.getPassword2())) {
-            Client usuario = Client.builder()
-                    .name(newClient.getName())
-                    .dni(newClient.getDni())
-                    .address(newClient.getAddress())
-                    .codLibrary(newClient.getCodLibrary())
-                    .email(newClient.getEmail())
-                    .password(passwordEncoder.encode(newClient.getPassword()))
-                    .username(newClient.getUsername())
-                    .avatar(newClient.getAvatar())
-                    .build();
-            try {
-                return clientRepository.save(usuario);
-            } catch (DataIntegrityViolationException ex) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El name de usuario ya existe");
-            }
-        } else {
-            throw new NewUserWithDifferentPasswordsException();
-        }
-
-    }
 }

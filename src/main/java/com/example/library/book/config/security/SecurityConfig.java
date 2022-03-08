@@ -72,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // Permitimos el acceso a todas las rutas de /rest/productos
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/books/**").permitAll()
-                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/books/**").hasAnyRole(" CLIENT")
+                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/books/**").hasRole("CLIENT")
                 .antMatchers(HttpMethod.PUT, APIConfig.API_PATH + "/books/**").permitAll()
                 .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/books/**").permitAll()
                 // Permitimos el acceso a todas las rutas de /rest/files
@@ -89,29 +89,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/auth/reservations/**").hasRole(" CLIENT")
                 .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/auth/reservations/**").hasRole(" CLIENT")
 
-
-                // Eliminar productos solo el administrador
-
-                // Cuidado que la ruta a la consola de H2 está capada, debemos darle acceso a todos temporalmente
-                //.antMatchers("/h2-console").permitAll()
-                // De la misma manera a swagger
-                //.antMatchers("/swagger-ui.html").permitAll()
-
-                // Resto de rutas, auteticadas o no, tu decides, cuidado con la consola
-                // de H2
-                // y la documentación de Swagger
-                // que debes darle acceso si la necesitas.
-                //.anyRequest().authenticated();
-                // O no, depende de nuestra política de seguridad
                 .anyRequest().not().authenticated();
 
-        // De nuevo para la consola de H2 estas dos lineas
-//                .and().csrf().ignoringAntMatchers("/h2-console/**")
-//                .and().headers().frameOptions().sameOrigin();
-
-
-        // Será el encargado de coger el token y si es válido lo dejaremos pasar...
-        // Añadimos el filtro (jwtAuthorizationFilter).
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
