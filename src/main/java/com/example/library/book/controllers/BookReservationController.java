@@ -32,7 +32,7 @@ public class BookReservationController {
      */
     @PostMapping(value = "/{bookId}/reservations/{reservationId}")
     @ResponseStatus(code = HttpStatus.OK)
-    public ReservationDTO addAuthor(@PathVariable("reservationId") Long reservationId, @PathVariable("bookId") Long bookId)
+    public ReservationDTO addReservation(@PathVariable("reservationId") Long reservationId, @PathVariable("bookId") Long bookId)
             throws EntityNotFoundException {
         Reservation reservation = bookReservation.addReservation(bookId, reservationId);
         return modelMapper.map(reservation, ReservationDTO.class);
@@ -47,7 +47,7 @@ public class BookReservationController {
      */
     @GetMapping(value = "/{bookId}/reservations/{reservationId}")
     @ResponseStatus(code = HttpStatus.OK)
-    public ReservationDTO getAuthor(@PathVariable("reservationId") Long reservationId, @PathVariable("bookId") Long bookId)
+    public ReservationDTO getReservation(@PathVariable("reservationId") Long reservationId, @PathVariable("bookId") Long bookId)
             throws EntityNotFoundException, GeneralBadRequestException {
         Reservation reservation = bookReservation.getReservation(bookId, reservationId);
         return modelMapper.map(reservation, ReservationDTO.class);
@@ -64,7 +64,7 @@ public class BookReservationController {
      */
     @PutMapping(value = "/{bookId}/reservations")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<ReservationDTO> addAuthors(@PathVariable("bookId") Long bookId, @RequestBody List<Reservation> reservations)
+    public List<ReservationDTO> addReservation(@PathVariable("bookId") Long bookId, @RequestBody List<Reservation> reservations)
             throws EntityNotFoundException {
         List<Reservation> entities = modelMapper.map(reservations, new TypeToken<List<Reservation>>() {
         }.getType());
@@ -74,7 +74,7 @@ public class BookReservationController {
     }
 
     /**
-     * Busca y devuelve todos los autores que existen en un libro.
+     * Busca y devuelve todos las reservas que existen en un libro.
      *
      * @param bookId El ID del libro del cual se buscan los autores
      * @return JSONArray {@link ReservationDTO} - Las reservas encontrados en el
@@ -82,7 +82,7 @@ public class BookReservationController {
      */
     @GetMapping(value = "/{bookId}/reservations")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<ReservationDTO> getAuthors(@PathVariable("bookId") Long bookId) throws EntityNotFoundException {
+    public List<ReservationDTO> getReservation(@PathVariable("bookId") Long bookId) throws EntityNotFoundException {
         List<Reservation> authorEntity = bookReservation.getReservations(bookId);
         return modelMapper.map(authorEntity, new TypeToken<List<ReservationDTO>>() {
         }.getType());
@@ -96,7 +96,7 @@ public class BookReservationController {
      */
     @DeleteMapping(value = "/{bookId}/reservations/{reservationId}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void removeAuthor(@PathVariable("reservationId") Long reservationId, @PathVariable("bookId") Long bookId)
+    public void removeReservation(@PathVariable("reservationId") Long reservationId, @PathVariable("bookId") Long bookId)
             throws EntityNotFoundException {
         bookReservation.removeReservation(bookId, reservationId);
     }

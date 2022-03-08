@@ -5,6 +5,7 @@ import com.example.library.book.dto.clients.CreateClientDTO;
 import com.example.library.book.dto.clients.ListClientsDTO;
 
 import com.example.library.book.models.Client;
+import com.example.library.book.models.ClientRol;
 import lombok.RequiredArgsConstructor;
 
 import org.modelmapper.ModelMapper;
@@ -20,12 +21,15 @@ public class ClientMapper {
         return ClientDTO.builder()
                 .name(user.getName())
                 .username(user.getUsername())
-                .email(user.getEmail())
-                .address(user.getAddress())
-                .dni(user.getDni())
-                .codLibrary(user.getCodLibrary())
-                .avatar(user.getAvatar())
-                .build();
+                .roles(user.getRoles().stream()
+                        .map(ClientRol::name)
+                        .collect(Collectors.toSet()))
+                        .email(user.getEmail())
+                        .address(user.getAddress())
+                        .dni(user.getDni())
+                        .codLibrary(user.getCodLibrary())
+                        .avatar(user.getAvatar())
+                        .build();
     }
 
     private final ModelMapper modelMapper;

@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ClientRepository extends JpaRepository<Client, Long> {
+    List<Client> findByNameContainsIgnoreCase(String name);
 
     Optional<Client> findByUsername(String name);
 
-    List<Client> findByNameContainsIgnoreCase(String name);
 }

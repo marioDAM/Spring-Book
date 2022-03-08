@@ -4,6 +4,7 @@ import com.example.library.book.dto.clients.ClientRepository;
 import com.example.library.book.dto.clients.CreateClientDTO;
 import com.example.library.book.errors.usuarios.NewUserWithDifferentPasswordsException;
 import com.example.library.book.models.Client;
+import com.example.library.book.models.ClientRol;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +49,7 @@ public class ClientService {
                     .email(newClient.getEmail())
                     .password(passwordEncoder.encode(newClient.getPassword()))
                     .username(newClient.getUsername())
+                    .roles(Stream.of(ClientRol.CLIENT).collect(Collectors.toSet()))
                     .avatar(newClient.getAvatar())
                     .build();
             try {

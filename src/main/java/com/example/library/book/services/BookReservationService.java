@@ -34,7 +34,7 @@ public class BookReservationService {
     @Transactional
     public Reservation addReservation(Long bookId, Long reservationId) throws GeneralBadRequestException {
         log.info("Asociar la reserva al libro con id ={bookId}", bookId);
-        Optional<Reservation> reservation = reservationRepository.findById(reservationId);
+        Optional<Reservation> reservation = Optional.ofNullable(reservationRepository.findAllById(reservationId).get(0));
 
         if (reservation.isEmpty()) {
             throw new GeneralBadRequestException(ErrorMessage.RESERVATION_NOT_FOUND);
@@ -77,7 +77,7 @@ public class BookReservationService {
     public Reservation getReservation(Long bookId, Long reservationId)
             throws EntityNotFoundException, GeneralBadRequestException {
         log.info("Inicia proceso de consultar una reserva del libro con id = {0}", bookId);
-        Optional<Reservation> reservation = reservationRepository.findById(reservationId);
+        Optional<Reservation> reservation = Optional.ofNullable(reservationRepository.findAllById(reservationId).get(0));
         Optional<Book> bookEntity = bookRepository.findById(bookId);
 
         if (reservation.isEmpty())
@@ -108,7 +108,7 @@ public class BookReservationService {
             throw new EntityNotFoundException(ErrorMessage.BOOK_NOT_FOUND);
 
         for (Reservation author : list) {
-            Optional<Reservation> authorEntity = reservationRepository.findById(author.getId());
+            Optional<Reservation> authorEntity = Optional.ofNullable(reservationRepository.findAllById(author.getId()).get(0));
             if (authorEntity.isEmpty())
                 throw new EntityNotFoundException(ErrorMessage.RESERVATION_NOT_FOUND);
 
@@ -128,7 +128,7 @@ public class BookReservationService {
     @Transactional
     public void removeReservation(Long bookId, Long reservationId) throws EntityNotFoundException {
         log.info("Inicia proceso de borrar una reserva del libro con id = {0}", bookId);
-        Optional<Reservation> authorEntity = reservationRepository.findById(reservationId);
+        Optional<Reservation> authorEntity = Optional.ofNullable(reservationRepository.findAllById(reservationId).get(0));
         Optional<Book> bookEntity = bookRepository.findById(bookId);
 
         if (authorEntity.isEmpty())
